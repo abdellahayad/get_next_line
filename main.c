@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 
-char    *get_next_line(int fd)
+char    *get_next(int fd)
 {
     static char *left_c;
     char        *line;
@@ -29,15 +29,14 @@ char    *get_next_line(int fd)
 
 static char *_set_line(char *line_buffer)
 {
-    char    *left_c;
+    char        *left_c;
     ssize_t    i;
     
     i = 0;
-    
     while (line_buffer[i] != '\n' && line_buffer[i] != '\0')
         i++;
     
-    if (line_buffer[i] == 0 || line_buffer[1] == 0)
+    if (line_buffer[i] == 0 || line_buffer[i + 1] == 0)
         return (NULL);
     
     left_c = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);

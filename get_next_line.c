@@ -6,12 +6,31 @@
 /*   By: aayad <aayad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:09:38 by aayad             #+#    #+#             */
-/*   Updated: 2024/12/03 10:07:45 by aayad            ###   ########.fr       */
+/*   Updated: 2024/12/03 21:29:21 by aayad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+static char  *stract_line(char *line)
+{
+    ssize_t   i;
+    char  *left_str;
+    
+    i = 0;
+    while (line[i] != '\n' && line[i] != '\0')
+      i++;
+    if (line[i] == 0 || line[i + 1] == 0)
+        return (NULL);
+    left_str = ft_substr(line, i + 1, ft_strlen(line) - i);
+    if(*left_str == 0)
+    {
+        free(left_str);
+        left_str = NULL;
+    }
+    line[i + 1] = '\0';
+    return(left_str);
+}
 char *fill_buffer(int fd, char *left_str, char *buffer)
 {
     ssize_t   n_read;
@@ -31,10 +50,11 @@ char *fill_buffer(int fd, char *left_str, char *buffer)
         buffer[n_read] = '\0';
         if (!left_str)
           left_str = ft_strdup("");
-        temp = ft_strjoin(left_str, buffer);
-        free(left_str);
-        left_str = temp;
-        if (ft_strchr(buffer, '\n'))
+        temp = left_str;
+        left_str = ft_strjoin(temp, buffer);
+        free(temp);
+        temp = NULL;
+        if (strchr(buffer, '\n'))
           break ;
     }
     return (left_str);
@@ -60,5 +80,6 @@ char *get_next_line(int fd)
       line = fill_buffer(fd, left_str, buffer);
       free(buffer);
       buffer = NULL;
+      //left_str = stract_line(line);
       return (line);
 }
