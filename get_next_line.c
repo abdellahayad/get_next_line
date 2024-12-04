@@ -6,31 +6,12 @@
 /*   By: aayad <aayad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:09:38 by aayad             #+#    #+#             */
-/*   Updated: 2024/12/03 21:29:21 by aayad            ###   ########.fr       */
+/*   Updated: 2024/12/04 22:25:54 by aayad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char  *stract_line(char *line)
-{
-    ssize_t   i;
-    char  *left_str;
-    
-    i = 0;
-    while (line[i] != '\n' && line[i] != '\0')
-      i++;
-    if (line[i] == 0 || line[i + 1] == 0)
-        return (NULL);
-    left_str = ft_substr(line, i + 1, ft_strlen(line) - i);
-    if(*left_str == 0)
-    {
-        free(left_str);
-        left_str = NULL;
-    }
-    line[i + 1] = '\0';
-    return(left_str);
-}
 char *fill_buffer(int fd, char *left_str, char *buffer)
 {
     ssize_t   n_read;
@@ -60,6 +41,60 @@ char *fill_buffer(int fd, char *left_str, char *buffer)
     return (left_str);
 }
 
+char	*ft_get_line(char *left_str)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (!left_str[i])
+		return (NULL);
+	while (left_str[i] && left_str[i] != '\n')
+		i++;
+	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (left_str[i] && left_str[i] != '\n')
+	{
+		str[i] = left_str[i];
+		i++;
+	}
+	if (left_str[i] == '\n')
+	{
+		str[i] = left_str[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_new_left_str(char *left_str)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	while (left_str[i] && left_str[i] != '\n')
+		i++;
+	if (!left_str[i])
+	{
+		free(left_str);
+		return (NULL);
+	}
+	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
+	if (!str)
+		return (NULL);
+	i++;
+	j = 0;
+	while (left_str[i])
+		str[j++] = left_str[i++];
+	str[j] = '\0';
+	free(left_str);
+	return (str);
+}
+
 char *get_next_line(int fd)
 {
       static char *left_str;
@@ -77,9 +112,12 @@ char *get_next_line(int fd)
       }
       if (!buffer)
         return (NULL);
-      line = fill_buffer(fd, left_str, buffer);
+      left_str = fill_buffer(fd, left_str, buffer);
       free(buffer);
       buffer = NULL;
-      //left_str = stract_line(line);
+      if (!left_str)
+        return (NULL);
+      line = ft_get_line(left_str);
+      left_str = ft_new_left_str(left_str);
       return (line);
 }
