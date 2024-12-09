@@ -6,32 +6,22 @@ void gg(void)
 }
 int main()
 {
-   atexit(gg);
+   //atexit(gg);
     int fd = open("get_next_line.h", O_RDONLY);
 
  
    
     
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-        printf("%s", get_next_line(fd));
-       
-    
-    
-    
+        int i = 0;
+        while (i < 23)
+        {
+            char *s =  get_next_line(fd);
+            printf("%s", s);
+            free(s);
+            i++;
+        } 
 }
+
+
+
+
