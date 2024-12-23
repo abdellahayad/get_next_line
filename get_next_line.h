@@ -6,7 +6,7 @@
 /*   By: aayad <aayad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 20:53:40 by aayad             #+#    #+#             */
-/*   Updated: 2024/12/11 15:46:35 by aayad            ###   ########.fr       */
+/*   Updated: 2024/12/19 14:55:51 by aayad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <fcntl.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000
+#  define BUFFER_SIZE 214
 # endif
 
-void	free_that(char *s);
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char *s1, char *s2);

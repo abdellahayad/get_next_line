@@ -6,7 +6,7 @@
 /*   By: aayad <aayad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:39:22 by aayad             #+#    #+#             */
-/*   Updated: 2024/12/11 14:39:24 by aayad            ###   ########.fr       */
+/*   Updated: 2024/12/15 14:44:38 by aayad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*extract_rest(char *left_str)
 		i++;
 	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
 	if (!str)
-		return (free_that(left_str), NULL);
+		return (free(left_str), NULL);
 	i++;
 	if (i >= ft_strlen(left_str))
 		return (free(left_str), free(str), NULL);
@@ -69,7 +69,7 @@ char	*extract_rest(char *left_str)
 	while (left_str[i])
 		str[j++] = left_str[i++];
 	str[j] = '\0';
-	free_that(left_str);
+	free(left_str);
 	return (str);
 }
 
